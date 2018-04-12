@@ -57,6 +57,11 @@ module.exports = {
 						loader: "sass-loader"
 					}]
 				})
+			},
+			{
+				test: /\.css$/,
+				include: helpers.root('src', 'app'),
+				loader: 'raw-loader'
 			}
 		]
 	},

@@ -1,5 +1,6 @@
 var webpack = require('webpack');
 var helpers = require('./helpers');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
 	devtool: 'inline-source-map',
@@ -31,11 +32,28 @@ module.exports = {
 			{
 				test: /\.css$/,
 				exclude: helpers.root('src', 'app'),
-				loader: 'null-loader'
+				loader: ExtractTextPlugin.extract({
+					fallback: 'style-loader',
+					use: 'css-loader?sourceMap'
+				})
 			},
 			{
 				test: /\.scss$/,
-				loader: 'null-loader'
+				include: helpers.root('src'),
+				use: ExtractTextPlugin.extract({
+					fallback: 'style-loader',
+					//resolve-url-loader may be chained before sass-loader if necessary
+					use: [{
+						loader: "css-loader"
+					}, {
+						loader: "sass-loader"
+					}]
+				})
+			},
+			{
+				test: /\.css$/,
+				include: helpers.root('src', 'app'),
+				loader: 'raw-loader'
 			}
 		]
 	},
@@ -46,7 +64,8 @@ module.exports = {
 			/angular(\\|\/)core(\\|\/)@angular/,
 			helpers.root('./src'), // location of your src
 			{} // a map of your routes
-		)
+		),
+		new ExtractTextPlugin('style.css')
 	]
 }
 
