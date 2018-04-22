@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 import '../styles.scss'
 
@@ -9,4 +10,5 @@ import '../styles.scss'
 })
 export class AppComponent {
 	public isCollapsed = true;
+	plus = faPlus;
 }
